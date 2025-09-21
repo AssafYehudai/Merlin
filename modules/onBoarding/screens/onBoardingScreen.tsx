@@ -1,11 +1,11 @@
 import { Button } from "@/common/components/Button";
 import { useColorScheme } from "@/common/hooks/use-color-scheme";
 import { useState } from "react";
-import { StyleSheet, Text, TextInput, View } from "react-native";
+import { ActivityIndicator, StyleSheet, Text, TextInput, View } from "react-native";
 import { useOnBoarding } from "../hooks/useOnBoarding";
 
 export default function OnBoardingScreen() {
-    const { login } = useOnBoarding();
+    const { login, isLoading } = useOnBoarding();
     const colorScheme = useColorScheme();
     const [accountName, setAccountName] = useState("");
 
@@ -41,12 +41,25 @@ export default function OnBoardingScreen() {
                     }}
                 >
                     <Text style={styles.accountLabel}>AccountName</Text>
-                    <TextInput style={{ width: "100%", borderWidth: 1, borderRadius: 8, height: 44 }} />
+                    <TextInput
+                        style={{ width: "100%", borderWidth: 1, borderRadius: 8, height: 44 }}
+                        value={accountName}
+                        onChangeText={setAccountName}
+                        editable={!isLoading}
+                    />
                     <Button
                         style={{ top: 8, width: "100%" }}
-                        title='Login'
+                        title={isLoading ? "Logging in..." : "Login"}
                         onPress={() => handleLogin()}
+                        disabled={isLoading}
                     />
+                    {isLoading && (
+                        <ActivityIndicator
+                            size='small'
+                            color='#007AFF'
+                            style={styles.loader}
+                        />
+                    )}
                 </View>
             </View>
         </View>
@@ -64,5 +77,8 @@ const styles = StyleSheet.create({
         fontWeight: 600,
         textAlign: "left",
         width: "100%",
+    },
+    loader: {
+        position: "absolute",
     },
 });
