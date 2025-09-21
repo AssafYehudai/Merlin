@@ -1,12 +1,17 @@
+import { useThemeColor } from "@/common/hooks/use-theme-color";
 import React from "react";
 import { ScrollView, StyleSheet, Text, View } from "react-native";
+import { TemplateProps } from "../../types/types";
 import { ActionButtons } from "../ActionButtons";
 import { Avatar } from "../Avatar";
 import { PostsGrid } from "../PostsGrid";
 import { Stats } from "../Stats";
-import { TemplateProps } from "../types";
 
 export function Merlin1({ userData, onEditPress, onLogoutPress }: TemplateProps) {
+    const backgroundColor = useThemeColor({}, "background");
+    const textColor = useThemeColor({}, "text");
+    const cardColor = useThemeColor({}, "card");
+
     const stats = [
         { value: userData.followers, label: "Followers" },
         { value: userData.posts.length, label: "Posts" },
@@ -14,18 +19,18 @@ export function Merlin1({ userData, onEditPress, onLogoutPress }: TemplateProps)
 
     return (
         <ScrollView
-            style={styles.container}
+            style={[styles.container, { backgroundColor }]}
             showsVerticalScrollIndicator={false}
         >
             {/* Header Section */}
-            <View style={styles.header}>
+            <View style={[styles.header, { backgroundColor: cardColor }]}>
                 <Avatar
                     uri={userData.avatar}
                     size={120}
                 />
-                <Text style={styles.displayName}>{userData.displayName}</Text>
-                <Text style={styles.username}>@{userData.username}</Text>
-                <Text style={styles.bio}>{userData.bio_ai}</Text>
+                <Text style={[styles.displayName, { color: textColor }]}>{userData.displayName}</Text>
+                <Text style={[styles.username, { color: textColor }]}>@{userData.username}</Text>
+                <Text style={[styles.bio, { color: textColor }]}>{userData.bio_ai}</Text>
 
                 <Stats stats={stats} />
 
@@ -49,13 +54,11 @@ export function Merlin1({ userData, onEditPress, onLogoutPress }: TemplateProps)
 const styles = StyleSheet.create({
     container: {
         flex: 1,
-        backgroundColor: "#fff",
     },
     header: {
         alignItems: "center",
         paddingVertical: 40,
         paddingHorizontal: 20,
-        backgroundColor: "#f8f9fa",
     },
     displayName: {
         fontSize: 24,

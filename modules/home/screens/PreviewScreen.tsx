@@ -44,7 +44,7 @@ export default function PreviewScreen({ onEditPress }: PreviewScreenProps) {
                         onEditPress={onEditPress}
                         onLogoutPress={logOut}
                     />
-                ); // Default to Merlin1
+                );
         }
     };
 

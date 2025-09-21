@@ -1,6 +1,10 @@
+import { useThemeColor } from "@/common/hooks/use-theme-color";
 import { Stack } from "expo-router";
 
 export default function HomeLayout() {
+    const backgroundColor = useThemeColor({}, "background");
+    const textColor = useThemeColor({}, "text");
+
     return (
         <Stack>
             <Stack.Screen
@@ -9,7 +13,16 @@ export default function HomeLayout() {
             />
             <Stack.Screen
                 name='editNavScreen'
-                options={{ title: "Edit" }}
+                options={{
+                    title: "Edit",
+                    headerStyle: {
+                        backgroundColor: backgroundColor,
+                    },
+                    headerTintColor: textColor,
+                    headerTitleStyle: {
+                        color: textColor,
+                    },
+                }}
             />
         </Stack>
     );

@@ -1,3 +1,4 @@
+import { useThemeColor } from "@/common/hooks/use-theme-color";
 import React from "react";
 import { StyleSheet, Text, View } from "react-native";
 
@@ -14,18 +15,22 @@ interface StatsProps {
 
 export function Stats({ stats, style = "default", containerStyle }: StatsProps) {
     const isCardStyle = style === "card";
+    const textColor = useThemeColor({}, "text");
+    const cardColor = useThemeColor({}, "card");
 
     return (
         <View style={[isCardStyle ? styles.cardContainer : styles.defaultContainer, containerStyle]}>
             {stats.map((stat, index) => (
                 <View
                     key={index}
-                    style={isCardStyle ? styles.statCard : styles.statItem}
+                    style={isCardStyle ? [styles.statCard, { backgroundColor: cardColor }] : styles.statItem}
                 >
-                    <Text style={[styles.statNumber, isCardStyle && styles.cardStatNumber]}>
+                    <Text style={[styles.statNumber, { color: textColor }, isCardStyle && styles.cardStatNumber]}>
                         {stat.value.toLocaleString()}
                     </Text>
-                    <Text style={[styles.statLabel, isCardStyle && styles.cardStatLabel]}>{stat.label}</Text>
+                    <Text style={[styles.statLabel, { color: textColor }, isCardStyle && styles.cardStatLabel]}>
+                        {stat.label}
+                    </Text>
                 </View>
             ))}
         </View>
@@ -47,7 +52,6 @@ const styles = StyleSheet.create({
     },
     statCard: {
         flex: 1,
-        backgroundColor: "#f8f9fa",
         padding: 20,
         borderRadius: 12,
         alignItems: "center",

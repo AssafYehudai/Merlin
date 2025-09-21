@@ -12,10 +12,8 @@ type ButtonProps = {
 // from SDK 53 (React 19) onwards, forwardRef is no longer needed, as ref is now a prop
 export function Button({ title, onPress, disabled, variant = "primary", style, ...rest }: ButtonProps) {
     const backgroundColor = useThemeColor({}, "tint");
-    const textColor = useThemeColor({}, "background");
-
+    const textColor = "#fff";
     const buttonStyle = [styles.button, { backgroundColor }, style];
-
     const textStyle = [styles.buttonText, { color: textColor }];
 
     return (

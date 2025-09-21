@@ -1,12 +1,17 @@
+import { useThemeColor } from "@/common/hooks/use-theme-color";
 import React from "react";
 import { ScrollView, StyleSheet, Text, View } from "react-native";
+import { TemplateProps } from "../../types/types";
 import { ActionButtons } from "../ActionButtons";
 import { HeroSection } from "../HeroSection";
 import { PostsGrid } from "../PostsGrid";
 import { Stats } from "../Stats";
-import { TemplateProps } from "../types";
 
 export function Merlin2({ userData, onEditPress, onLogoutPress }: TemplateProps) {
+    const backgroundColor = useThemeColor({}, "background");
+    const textColor = useThemeColor({}, "text");
+    const surfaceColor = useThemeColor({}, "surface");
+
     const stats = [
         { value: userData.followers, label: "Followers" },
         { value: userData.posts.length, label: "Posts" },
@@ -14,7 +19,7 @@ export function Merlin2({ userData, onEditPress, onLogoutPress }: TemplateProps)
 
     return (
         <ScrollView
-            style={styles.container}
+            style={[styles.container, { backgroundColor }]}
             showsVerticalScrollIndicator={false}
         >
             <HeroSection
@@ -25,11 +30,11 @@ export function Merlin2({ userData, onEditPress, onLogoutPress }: TemplateProps)
             />
 
             {/* Content Section */}
-            <View style={styles.contentSection}>
+            <View style={[styles.contentSection, { backgroundColor: surfaceColor }]}>
                 {/* Bio */}
                 <View style={styles.bioSection}>
-                    <Text style={styles.bioTitle}>About</Text>
-                    <Text style={styles.bio}>{userData.bio_ai}</Text>
+                    <Text style={[styles.bioTitle, { color: textColor }]}>About</Text>
+                    <Text style={[styles.bio, { color: textColor }]}>{userData.bio_ai}</Text>
                 </View>
 
                 <Stats
@@ -58,11 +63,9 @@ export function Merlin2({ userData, onEditPress, onLogoutPress }: TemplateProps)
 const styles = StyleSheet.create({
     container: {
         flex: 1,
-        backgroundColor: "#000",
     },
     contentSection: {
         flex: 1,
-        backgroundColor: "#fff",
         borderTopLeftRadius: 20,
         borderTopRightRadius: 20,
         marginTop: -20,

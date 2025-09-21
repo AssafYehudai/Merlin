@@ -18,6 +18,7 @@ export function ActionButtons({
     containerStyle,
 }: ActionButtonsProps) {
     const tintColor = useThemeColor({}, "tint");
+    const buttonTextColor = "#fff";
 
     return (
         <View style={[styles.container, containerStyle]}>
@@ -25,7 +26,7 @@ export function ActionButtons({
                 style={[styles.button, { backgroundColor: tintColor }]}
                 onPress={onEditPress}
             >
-                <Text style={styles.buttonText}>Edit</Text>
+                <Text style={[styles.buttonText, { color: buttonTextColor }]}>Edit</Text>
             </TouchableOpacity>
 
             {showShare && (
@@ -33,7 +34,7 @@ export function ActionButtons({
                     style={[styles.button, { backgroundColor: tintColor }]}
                     onPress={onSharePress || (() => {})}
                 >
-                    <Text style={styles.buttonText}>Share</Text>
+                    <Text style={[styles.buttonText, { color: buttonTextColor }]}>Share</Text>
                 </TouchableOpacity>
             )}
 
@@ -41,7 +42,7 @@ export function ActionButtons({
                 style={[styles.button, { backgroundColor: tintColor }]}
                 onPress={onLogoutPress}
             >
-                <Text style={styles.buttonText}>Logout</Text>
+                <Text style={[styles.buttonText, { color: buttonTextColor }]}>Logout</Text>
             </TouchableOpacity>
         </View>
     );
@@ -61,7 +62,6 @@ const styles = StyleSheet.create({
         justifyContent: "center",
     },
     buttonText: {
-        color: "#fff",
         fontSize: 14,
         fontWeight: "600",
     },

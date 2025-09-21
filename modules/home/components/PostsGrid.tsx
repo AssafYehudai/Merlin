@@ -1,3 +1,4 @@
+import { useThemeColor } from "@/common/hooks/use-theme-color";
 import React from "react";
 import { Dimensions, FlatList, Image, StyleSheet, Text, View } from "react-native";
 
@@ -22,6 +23,7 @@ export function PostsGrid({
     containerStyle,
     titleStyle,
 }: PostsGridProps) {
+    const textColor = useThemeColor({}, "text");
     const screenWidth = Dimensions.get("window").width;
     const itemWidth = (screenWidth - 56) / 3; // 20 padding + 8 gap * 2 = 36, so 40 total margin
 
@@ -41,7 +43,7 @@ export function PostsGrid({
 
     return (
         <View style={[styles.container, containerStyle]}>
-            {title && <Text style={[styles.title, titleStyle]}>{title}</Text>}
+            {title && <Text style={[styles.title, { color: textColor }, titleStyle]}>{title}</Text>}
             <FlatList
                 data={posts}
                 renderItem={renderPostItem}
