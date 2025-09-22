@@ -46,6 +46,7 @@ export function Merlin2({ userData, onEditPress, onLogoutPress }: TemplateProps)
                 <ActionButtons
                     onEditPress={onEditPress}
                     onLogoutPress={onLogoutPress}
+                    username={userData.username}
                     containerStyle={styles.actionButtons}
                 />
 

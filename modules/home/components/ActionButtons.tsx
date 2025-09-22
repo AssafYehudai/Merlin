@@ -1,6 +1,6 @@
 import { useThemeColor } from "@/common/hooks/use-theme-color";
 import React from "react";
-import { StyleSheet, Text, TouchableOpacity, View } from "react-native";
+import { Share, StyleSheet, Text, TouchableOpacity, View } from "react-native";
 
 interface ActionButtonsProps {
     onEditPress?: () => void;
@@ -8,6 +8,7 @@ interface ActionButtonsProps {
     onSharePress?: () => void;
     showShare?: boolean;
     containerStyle?: any;
+    username?: string;
 }
 
 export function ActionButtons({
@@ -16,9 +17,26 @@ export function ActionButtons({
     onSharePress,
     showShare = true,
     containerStyle,
+    username,
 }: ActionButtonsProps) {
     const tintColor = useThemeColor({}, "tint");
     const buttonTextColor = "#fff";
+
+    const handleShare = async () => {
+        if (username) {
+            const shareUrl = `https://${username}.merlin-site.com`;
+            try {
+                await Share.share({
+                    message: `Check out my Merlin profile: ${shareUrl}`,
+                    url: shareUrl,
+                });
+            } catch (error) {
+                console.error("Error sharing:", error);
+            }
+        }
+        // Call the optional onSharePress callback if provided
+        onSharePress?.();
+    };
 
     return (
         <View style={[styles.container, containerStyle]}>
@@ -32,7 +50,7 @@ export function ActionButtons({
             {showShare && (
                 <TouchableOpacity
                     style={[styles.button, { backgroundColor: tintColor }]}
-                    onPress={onSharePress || (() => {})}
+                    onPress={handleShare}
                 >
                     <Text style={[styles.buttonText, { color: buttonTextColor }]}>Share</Text>
                 </TouchableOpacity>
