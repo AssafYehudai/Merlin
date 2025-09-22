@@ -1,6 +1,27 @@
 import { useThemeColor } from "@/common/hooks/use-theme-color";
 import React from "react";
-import { Share, StyleSheet, Text, TouchableOpacity, View } from "react-native";
+import { Alert, Dimensions, Share, StyleSheet, Text, TouchableOpacity, View } from "react-native";
+
+const { width: screenWidth } = Dimensions.get("window");
+
+interface TouchableButtonProps {
+    title: string;
+    onPress: () => void;
+    backgroundColor?: string;
+    textColor?: string;
+    style?: any;
+}
+
+function TouchableButton({ title, onPress, backgroundColor, textColor = "#fff", style }: TouchableButtonProps) {
+    return (
+        <TouchableOpacity
+            style={[buttonStyles.button, { backgroundColor }, style]}
+            onPress={onPress}
+        >
+            <Text style={[buttonStyles.buttonText, { color: textColor }]}>{title}</Text>
+        </TouchableOpacity>
+    );
+}
 
 interface ActionButtonsProps {
     onEditPress?: () => void;
@@ -38,30 +59,56 @@ export function ActionButtons({
         onSharePress?.();
     };
 
+    const handlePublish = () => {
+        if (username) {
+            Alert.alert("Published", `Published to ${username}.merlin-site.com (mock).`);
+        } else {
+            Alert.alert("Published", "Published to username.merlin-site.com (mock).");
+        }
+    };
+
+    // Calculate button width based on screen width and number of buttons
+    const buttonCount = showShare ? 4 : 3;
+    const sideMargins = 32; // 16px on each side (16px left + 16px right)
+    const gapTotal = (buttonCount - 1) * 8; // 8px gap between buttons
+    const availableWidth = screenWidth - sideMargins - gapTotal;
+    const buttonWidth = Math.max(availableWidth / buttonCount, 60); // Minimum 60px width per button
+
     return (
         <View style={[styles.container, containerStyle]}>
-            <TouchableOpacity
-                style={[styles.button, { backgroundColor: tintColor }]}
-                onPress={onEditPress}
-            >
-                <Text style={[styles.buttonText, { color: buttonTextColor }]}>Edit</Text>
-            </TouchableOpacity>
+            <TouchableButton
+                title='Edit'
+                onPress={onEditPress || (() => {})}
+                backgroundColor={tintColor}
+                textColor={buttonTextColor}
+                style={{ width: buttonWidth }}
+            />
+
+            <TouchableButton
+                title='Publish'
+                onPress={handlePublish}
+                backgroundColor={tintColor}
+                textColor={buttonTextColor}
+                style={{ width: buttonWidth }}
+            />
 
             {showShare && (
-                <TouchableOpacity
-                    style={[styles.button, { backgroundColor: tintColor }]}
+                <TouchableButton
+                    title='Share'
                     onPress={handleShare}
-                >
-                    <Text style={[styles.buttonText, { color: buttonTextColor }]}>Share</Text>
-                </TouchableOpacity>
+                    backgroundColor={tintColor}
+                    textColor={buttonTextColor}
+                    style={{ width: buttonWidth }}
+                />
             )}
 
-            <TouchableOpacity
-                style={[styles.button, { backgroundColor: tintColor }]}
-                onPress={onLogoutPress}
-            >
-                <Text style={[styles.buttonText, { color: buttonTextColor }]}>Logout</Text>
-            </TouchableOpacity>
+            <TouchableButton
+                title='Logout'
+                onPress={onLogoutPress || (() => {})}
+                backgroundColor={tintColor}
+                textColor={buttonTextColor}
+                style={{ width: buttonWidth }}
+            />
         </View>
     );
 }
@@ -69,15 +116,20 @@ export function ActionButtons({
 const styles = StyleSheet.create({
     container: {
         flexDirection: "row",
-        gap: 12,
+        gap: 8,
+        marginLeft: 16,
+        marginRight: 16,
     },
+});
+
+const buttonStyles = StyleSheet.create({
     button: {
-        flex: 1,
-        paddingVertical: 12,
-        paddingHorizontal: 16,
+        paddingVertical: 10,
+        paddingHorizontal: 12,
         borderRadius: 8,
         alignItems: "center",
         justifyContent: "center",
+        minHeight: 36,
     },
     buttonText: {
         fontSize: 14,

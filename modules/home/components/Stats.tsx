@@ -44,8 +44,8 @@ const styles = StyleSheet.create({
     },
     cardContainer: {
         flexDirection: "row",
-        gap: 15,
-        marginBottom: 30,
+        gap: 16,
+        marginBottom: 16,
     },
     statItem: {
         alignItems: "center",

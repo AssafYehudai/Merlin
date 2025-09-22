@@ -86,11 +86,10 @@ const styles = StyleSheet.create({
         opacity: 0.8,
     },
     statsSection: {
-        paddingHorizontal: 20,
+        paddingHorizontal: 16,
     },
     actionButtons: {
-        paddingHorizontal: 20,
-        marginBottom: 30,
+        marginBottom: 24,
     },
     postsSection: {
         paddingHorizontal: 20,
